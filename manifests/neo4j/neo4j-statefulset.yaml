@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: neo4j
+  namespace: projet-app
+spec:
+  selector:
+    matchLabels:
+      app: neo4j
+  serviceName: neo4j
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: neo4j
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker
+      initContainers:
+      - name: fix-permissions
+        image: busybox
+        command: ["sh", "-c", "mkdir -p /data && chown -R 7474:7474 /data"]
+        volumeMounts:
+        - name: neo4j-data
+          mountPath: /data
+      containers:
+      - name: neo4j
+        image: neo4j:5.20  # Version corrigée
+        ports:
+        - containerPort: 7474
+        - containerPort: 7687
+        env:
+        - name: NEO4J_AUTH
+          value: neo4j/rootroot
+        - name: NEO4J_ignore_env
+          value: ".*"  # Ignorer TOUTES les variables non-Neo4j
+        - name: NEO4J_server_config_strict_validation_enabled
+          value: "false"
+        - name: NEO4J_CONF
+          value: /config
+
+        volumeMounts:
+        - name: neo4j-data
+          mountPath: /data
+        - name: neo4j-config
+          mountPath: /config
+          readOnly: true
+      volumes:
+      - name: neo4j-config
+        configMap:
+          name: neo4j-config
+      - name: neo4j-data
+        persistentVolumeClaim:
+          claimName: neo4j-pvc
