@@ -1,0 +1,13 @@
+resources:
+  - neo4j-statefulset.yaml
+  - neo4j-service.yaml
+  - neo4j-pv.yaml
+  - neo4j-pvc.yaml
+
+configMapGenerator:
+  - name: neo4j-config
+    files:
+      - neo4j.conf
+
+generatorOptions:
+  disableNameSuffixHash: true
