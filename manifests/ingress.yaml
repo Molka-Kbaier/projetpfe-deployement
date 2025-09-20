@@ -6,6 +6,7 @@ metadata:
   namespace: projet-app
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    argocd.argoproj.io/health-ignore: "true"
 spec:
   ingressClassName: nginx
   rules:
