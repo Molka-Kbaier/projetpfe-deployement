@@ -1,0 +1,13 @@
+# nginx-ingress-status-role-binding-group.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nginx-ingress-status-updater-binding-group
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nginx-ingress-status-updater
+subjects:
+- kind: Group
+  name: system:serviceaccounts:nginx-ingress
+
