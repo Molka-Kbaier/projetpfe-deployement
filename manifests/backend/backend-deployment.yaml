@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: molkak/projet-backend:b64c6cb
+        image: molkak/projet-backend:e778a37
         ports:
         - containerPort: 8000
 ---
