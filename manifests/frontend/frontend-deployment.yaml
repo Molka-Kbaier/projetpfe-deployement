@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: molkak/projet-frontend:e778a37
+        image: molkak/projet-frontend:03585c7
         ports:
         - containerPort: 80
         volumeMounts:
